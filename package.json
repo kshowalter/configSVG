@@ -1,0 +1,21 @@
+{
+  "name": "configSVG",
+  "version": "0.1.0",
+  "description": "Function to assist with the preparation of SVG config that is compatable with configDOM API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kshowalter/configSVG.git"
+  },
+  "keywords": [
+    "svg"
+  ],
+  "author": "Keith Showalter",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/kshowalter/configSVG/issues"
+  }
+}
