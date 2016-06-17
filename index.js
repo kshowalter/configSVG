@@ -1,4 +1,4 @@
-var SVG_attr = require('./svg');
+var svgAttrDefaults = require('./svg');
 
 var fixes = {
   cicle: function(specs){
@@ -29,8 +29,10 @@ var fixes = {
 };
 
 
-module.exports = function svgize(specs, settings){
+module.exports = function svgize(specs, svgAttr){
 
+  svgAttr.layer_attr = Object.assign({}, svgAttrDefaults.layer_attr, svgAttr.layer_attr); // TODO: find best way to do this only once
+  svgAttr.fonts = Object.assign({}, svgAttrDefaults.fonts, svgAttr.fonts); // TODO: find best way to do this only once 
 
   specs.props = specs.props || {};
 
@@ -45,8 +47,8 @@ module.exports = function svgize(specs, settings){
 
   specs.meta = specs.meta || {};
   specs.meta.namespaceURI = 'http://www.w3.org/2000/svg';
-  specs.meta.layer_attr = specs.meta.layer_attr || SVG_attr.layer_attr;
-  specs.meta.fonts = specs.meta.fonts || SVG_attr.fonts;
+  specs.meta.layer_attr = specs.meta.layer_attr || svgAttr.layer_attr;
+  specs.meta.fonts = specs.meta.fonts || svgAttr.fonts;
 
   specs.meta.layerName = specs.meta.layerName || 'base';
   specs.meta.fontName = specs.meta.fontName || 'base';
@@ -67,7 +69,7 @@ module.exports = function svgize(specs, settings){
 
   if( specs.children ){
     specs.children.map(function(child){
-      return svgize(child, settings);
+      return svgize(child, svgAttr);
     })
   }
 
