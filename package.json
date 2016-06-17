@@ -1,5 +1,5 @@
 {
-  "name": "configSVG",
+  "name": "svgize",
   "version": "0.1.0",
   "description": "Function to assist with the preparation of SVG config that is compatable with configDOM API",
   "main": "index.js",
