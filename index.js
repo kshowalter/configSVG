@@ -1,75 +1,75 @@
 var SVG_attr = require('./svg');
 
 var fixes = {
-  cicle: function(config){
-    config.props.cx = config.props.x;
-    delete config.props.x;
-    config.props.cy = config.props.y;
-    delete config.props.y;
+  cicle: function(specs){
+    specs.props.cx = specs.props.x;
+    delete specs.props.x;
+    specs.props.cy = specs.props.y;
+    delete specs.props.y;
 
 
-    return config;
+    return specs;
   },
-  g: function(config){
-    config.props = config.props || {};
-    config.props.x = config.props.x || 0;
-    config.props.y = config.props.y || 0;
-    config.props.transform = 'translate('+ config.props.x +' '+ config.props.y +')';
-    delete config.props.x;
-    delete config.props.y;
+  g: function(specs){
+    specs.props = specs.props || {};
+    specs.props.x = specs.props.x || 0;
+    specs.props.y = specs.props.y || 0;
+    specs.props.transform = 'translate('+ specs.props.x +' '+ specs.props.y +')';
+    delete specs.props.x;
+    delete specs.props.y;
 
-    return config;
+    return specs;
   },
 
-  xx: function(config){
+  xx: function(specs){
 
-    return config;
+    return specs;
   }
 
 };
 
 
-module.exports = function svgize(config){
+module.exports = function svgize(specs, settings){
 
 
-  config.props = config.props || {};
+  specs.props = specs.props || {};
 
-  if( fixes[config.tag] ){
-    config = fixes[config.tag](config);
+  if( fixes[specs.tag] ){
+    specs = fixes[specs.tag](specs);
   }
 
-  if( config.tag === 'svg' ){
-    config.props['xmlns'] = 'http://www.w3.org/2000/svg';
-    config.props['xmlns:xlink'] = 'http://www.w3.org/1999/xlink';
+  if( specs.tag === 'svg' ){
+    specs.props['xmlns'] = 'http://www.w3.org/2000/svg';
+    specs.props['xmlns:xlink'] = 'http://www.w3.org/1999/xlink';
   }
 
-  config.meta = config.meta || {};
-  config.meta.namespaceURI = 'http://www.w3.org/2000/svg';
-  config.meta.layer_attr = config.meta.layer_attr || SVG_attr.layer_attr;
-  config.meta.fonts = config.meta.fonts || SVG_attr.fonts;
+  specs.meta = specs.meta || {};
+  specs.meta.namespaceURI = 'http://www.w3.org/2000/svg';
+  specs.meta.layer_attr = specs.meta.layer_attr || SVG_attr.layer_attr;
+  specs.meta.fonts = specs.meta.fonts || SVG_attr.fonts;
 
-  config.meta.layerName = config.meta.layerName || 'base';
-  config.meta.fontName = config.meta.fontName || 'base';
+  specs.meta.layerName = specs.meta.layerName || 'base';
+  specs.meta.fontName = specs.meta.fontName || 'base';
 
-  if( ! (['svg', 'g', 'a'].indexOf(config.tag)+1) ){
-    var layer = config.meta.layer_attr[config.meta.layerName];
+  if( ! (['svg', 'g', 'a'].indexOf(specs.tag)+1) ){
+    var layer = specs.meta.layer_attr[specs.meta.layerName];
     for( var name in layer ){
-      config.props[name] = layer[name];
+      specs.props[name] = layer[name];
     }
   }
 
-  if( ['text', 'textPath', 'title', 'tref', 'tspan'].indexOf(config.tag)+1 ){
-    var font = config.meta.fonts[config.meta.fontName];
+  if( ['text', 'textPath', 'title', 'tref', 'tspan'].indexOf(specs.tag)+1 ){
+    var font = specs.meta.fonts[specs.meta.fontName];
     for( var name in font ){
-      config.props[name] = font[name];
+      specs.props[name] = font[name];
     }
   }
 
-  if( config.children ){
-    config.children.map(function(child){
-      return svgize(child);
+  if( specs.children ){
+    specs.children.map(function(child){
+      return svgize(child, settings);
     })
   }
 
-  return config;
+  return specs;
 };
