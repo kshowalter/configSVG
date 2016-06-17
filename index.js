@@ -10,6 +10,10 @@ var fixes = {
 
     return specs;
   },
+  rect: function(specs){
+
+    return specs;
+  },
   g: function(specs){
     specs.props = specs.props || {};
     specs.props.x = specs.props.x || 0;
@@ -32,7 +36,7 @@ var fixes = {
 module.exports = function svgize(specs, svgAttr){
 
   svgAttr.layer_attr = Object.assign({}, svgAttrDefaults.layer_attr, svgAttr.layer_attr); // TODO: find best way to do this only once
-  svgAttr.fonts = Object.assign({}, svgAttrDefaults.fonts, svgAttr.fonts); // TODO: find best way to do this only once 
+  svgAttr.fonts = Object.assign({}, svgAttrDefaults.fonts, svgAttr.fonts); // TODO: find best way to do this only once
 
   specs.props = specs.props || {};
 
